@@ -1,0 +1,581 @@
+        
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Conceptos de Diseño Gráfico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1em;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .test-section {
+            display: none;
+        }
+
+        .question-counter {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .question {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #667eea;
+        }
+
+        .question h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            line-height: 1.4;
+        }
+
+        .options {
+            list-style: none;
+        }
+
+        .options li {
+            margin-bottom: 12px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: normal;
+        }
+
+        .options label:hover {
+            background-color: #e9ecef;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        .result-section {
+            display: none;
+            text-align: center;
+        }
+
+        .result-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        .result-pass {
+            border-left: 5px solid #28a745;
+        }
+
+        .result-fail {
+            border-left: 5px solid #dc3545;
+        }
+
+        .result-title {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .result-pass .result-title {
+            color: #28a745;
+        }
+
+        .result-fail .result-title {
+            color: #dc3545;
+        }
+
+        .score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .score.pass {
+            color: #28a745;
+        }
+
+        .score.fail {
+            color: #dc3545;
+        }
+
+        .navigation-buttons {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .question-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+    </style>
+<body>
+    <div class="container">
+        <img src='https://www.sena.edu.co/Style%20Library/alayout/images/logoSena.png' width="50px">
+        <h4>Técnico Integración de contenidos Digitales</h4>
+        <h1>Test de Conceptos de Diseño Gráfico</h1>
+        
+        
+        <!-- Sección de inicio -->
+        <div class="start-section" id="startSection">
+            <div class="form-group">
+                <label for="studentName">Ingresa tu nombre:</label>
+                <input type="text" id="studentName" placeholder="Escribe tu nombre completo">
+            </div>
+            <button class="btn" onclick="startTest()">Comenzar Test</button>
+        </div>
+
+        <!-- Sección del test -->
+        <div class="test-section" id="testSection">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="question-counter" id="questionCounter"></div>
+            <div id="questionsContainer"></div>
+            <div class="navigation-buttons">
+                <button class="btn" id="nextBtn" onclick="nextQuestion()" style="display: none;">Siguiente Pregunta</button>
+                <button class="btn" id="finishBtn" onclick="submitTest()" style="display: none;">Finalizar Test</button>
+            </div>
+            <div><h4>Instructor: Elver Siaucho CEGAFE</h4></div>
+        </div>
+
+        <!-- Sección de resultados -->
+        <div class="result-section" id="resultSection">
+            <div class="result-card" id="resultCard">
+                <div class="result-title" id="resultTitle"></div>
+                <div><strong>Estudiante:</strong> <span id="studentNameResult"></span></div>
+                <div class="score" id="scoreDisplay"></div>
+                <div id="resultMessage"></div>
+            </div>
+            <button class="btn" onclick="restartTest()">Realizar Test Nuevamente</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "¿Cuál es la fuente ideal para diseñar un periódico con un estilo tradicional y formal?",
+                options: [
+                    "Una fuente con cursiva y negrita",
+                    "Una fuente fantástica", 
+                    "Una fuente Serif",
+                    "Una fuente Sans serif"
+                ],
+                correct: 2
+            },
+            {
+                question: "¿Cómo se llama el color que se encuentra frente a otro en el círculo cromático?",
+                options: [
+                    "Complementario",
+                    "Extra",
+                    "Adicional", 
+                    "Opuesto"
+                ],
+                correct: 0
+            },
+            {
+                question: "Si tienes que diseñar una tarjeta, ¿cuáles elementos te ayudarían a mejorar la composición?",
+                options: [
+                    "Alineación, contraste y el tamaño de la hoja.",
+                    "Proximidad, contraste, repetición, fuentes en negrita.",
+                    "Espacio en blanco, contraste, alineación y repetición.",
+                    "Espacio en blanco, repetición y círculo cromático."
+                ],
+                correct: 2
+            },
+            {
+                question: "Hay algunos errores en el diseño de esta página, ¿cuáles son?",
+                options: [
+                    "Hay muchos elementos con forma rectangular.",
+                    "El tamaño de la fuente y los colores del título.",
+                    "El contraste y la legibilidad de la fuente.",
+                    "No hay suficiente espacio para incluir más elementos."
+                ],
+                correct: 2,
+                image: "https://media.gcflearnfree.org/assets/quizzes/es/quiz-final-conceptos-bsicos-de-diseo-grfico_08_24_2021/Contraste.png"
+            },
+            {
+                question: "¿Cuáles elementos hacen parte de los matices del color?",
+                options: [
+                    "Brillo alto, medio y bajo.",
+                    "Textura, linealidad y brillo.",
+                    "Tonalidad, saturación y brillo.",
+                    "Profundidad, saturación y tono."
+                ],
+                correct: 2
+            },
+            {
+                question: "El fondo de esta imagen parece vibrar con los demás elementos. ¿Qué ajuste debes realizar en el color para que se vea más oscuro?",
+                options: [
+                    "Aumentar la saturación y bajar el brillo.",
+                    "Bajar el brillo y la saturación del fondo.",
+                    "Aumentar el brillo y la saturación del fondo.",
+                    "Cambiar la tonalidad."
+                ],
+                correct: 1,
+                image: "https://media.gcflearnfree.org/assets/quizzes/es/quiz-final-conceptos-bsicos-de-diseo-grfico_08_24_2021/Captura%20de%20Pantalla%202021-10-07%20a%20la(s)%203.29.37%20p.%C2%A0m..png"
+            },
+            {
+                question: "Si quieres que el diseño de tu imagen se vea lo más real posible debes enfocarte en:",
+                options: [
+                    "La regla de los tres tercios.",
+                    "La textura y las líneas.",
+                    "En las formas bidimensionales y las texturas.",
+                    "Las formas abstractas y el equilibrio."
+                ],
+                correct: 2
+            },
+            {
+                question: "¿Cuáles son los componentes de la identidad visual?",
+                options: [
+                    "Fondos, texturas e imágenes",
+                    "Texturas, líneas y concepto.",
+                    "Logotipo y lema.",
+                    "Logotipo, color, tipografía e imágenes."
+                ],
+                correct: 3
+            },
+            {
+                question: "¿Cuál es la definición correcta de maquetación?",
+                options: [
+                    "Es la combinación de cada cuadro de color que hay en un diseño.",
+                    "Es la forma como distribuyen los elementos en el espacio donde se va a diseñar.",
+                    "Es la forma como queda la impresión de un diseño.",
+                    "Es la claridad con la que se ven los elementos que conforman el diseño."
+                ],
+                correct: 1
+            },
+            {
+                question: "¿Qué nombre reciben los ajustes de luz, saturación y color en una foto?",
+                options: [
+                    "Ajustes cosméticos.",
+                    "Ajustes de fondo.",
+                    "Ajustes de tonos.",
+                    "Ajustes de precisión."
+                ],
+                correct: 2
+            }
+        ];
+
+        let shuffledQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let studentName = '';
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function shuffleOptions(question) {
+            const correctAnswer = question.options[question.correct];
+            const shuffledOptions = shuffleArray(question.options);
+            const newCorrectIndex = shuffledOptions.indexOf(correctAnswer);
+            
+            return {
+                ...question,
+                options: shuffledOptions,
+                correct: newCorrectIndex
+            };
+        }
+
+        function startTest() {
+            const nameInput = document.getElementById('studentName');
+            studentName = nameInput.value.trim();
+            
+            if (!studentName) {
+                alert('Por favor, ingresa tu nombre para comenzar el test.');
+                return;
+            }
+
+            // Mezclar preguntas y opciones
+            shuffledQuestions = shuffleArray(questions).map(shuffleOptions);
+            userAnswers = new Array(shuffledQuestions.length);
+            currentQuestionIndex = 0;
+
+            document.getElementById('startSection').style.display = 'none';
+            document.getElementById('testSection').style.display = 'block';
+            
+            displayQuestions();
+            updateProgress();
+        }
+
+        function displayQuestions() {
+            const container = document.getElementById('questionsContainer');
+            const counter = document.getElementById('questionCounter');
+            
+            counter.textContent = `Pregunta ${currentQuestionIndex + 1} de ${shuffledQuestions.length}`;
+            
+            let html = '';
+            
+            for (let i = 0; i < shuffledQuestions.length; i++) {
+                const q = shuffledQuestions[i];
+                html += `
+                    <div class="question ${i !== currentQuestionIndex ? 'hidden' : ''}">
+                        <h3>${q.question}</h3>
+                        ${q.image ? `<img src="${q.image}" alt="Imagen de ejemplo" class="question-image">` : ''}
+                        ${q.imageHtml ? q.imageHtml : ''}
+                        <ul class="options">
+                            ${q.options.map((option, index) => `
+                                <li>
+                                    <label>
+                                        <input type="radio" name="question${i}" value="${index}" 
+                                               onchange="saveAnswer(${i}, ${index}); showNextButton()">
+                                        ${option}
+                                    </label>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+            updateNavigationButtons();
+        }
+
+        function saveAnswer(questionIndex, answerIndex) {
+            userAnswers[questionIndex] = answerIndex;
+        }
+
+        function showNextButton() {
+            updateNavigationButtons();
+        }
+
+        function updateNavigationButtons() {
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+            const hasAnswer = userAnswers[currentQuestionIndex] !== undefined;
+            
+            if (hasAnswer) {
+                if (currentQuestionIndex === shuffledQuestions.length - 1) {
+                    // Última pregunta - mostrar botón finalizar
+                    nextBtn.style.display = 'none';
+                    finishBtn.style.display = 'inline-block';
+                } else {
+                    // Pregunta intermedia - mostrar botón siguiente
+                    nextBtn.style.display = 'inline-block';
+                    finishBtn.style.display = 'none';
+                }
+            } else {
+                // Sin respuesta - ocultar ambos botones
+                nextBtn.style.display = 'none';
+                finishBtn.style.display = 'none';
+            }
+        }
+
+        function nextQuestion() {
+            const currentQuestion = document.querySelector('.question:not(.hidden)');
+            currentQuestion.classList.add('hidden');
+            
+            currentQuestionIndex++;
+            updateProgress();
+            
+            if (currentQuestionIndex < shuffledQuestions.length) {
+                const nextQuestion = document.querySelectorAll('.question')[currentQuestionIndex];
+                nextQuestion.classList.remove('hidden');
+                
+                document.getElementById('questionCounter').textContent = 
+                    `Pregunta ${currentQuestionIndex + 1} de ${shuffledQuestions.length}`;
+                
+                updateNavigationButtons();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex) / shuffledQuestions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function submitTest() {
+            let score = 0;
+            
+            for (let i = 0; i < shuffledQuestions.length; i++) {
+                if (userAnswers[i] === shuffledQuestions[i].correct) {
+                    score++;
+                }
+            }
+            
+            const passed = score >= 8;
+            
+            document.getElementById('testSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            
+            const resultCard = document.getElementById('resultCard');
+            const resultTitle = document.getElementById('resultTitle');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const resultMessage = document.getElementById('resultMessage');
+            
+            document.getElementById('studentNameResult').textContent = studentName;
+            scoreDisplay.textContent = `${score}/10`;
+            
+            if (passed) {
+                resultCard.className = 'result-card result-pass';
+                resultTitle.textContent = '¡APROBADO!';
+                scoreDisplay.className = 'score pass';
+                resultMessage.innerHTML = `
+                    <p>¡Excelente trabajo! Has demostrado un buen conocimiento de los conceptos de diseño gráfico.</p>
+                    <p>Puntaje mínimo requerido: 8/10</p>
+                `;
+            } else {
+                resultCard.className = 'result-card result-fail';
+                resultTitle.textContent = 'NO APROBADO';
+                scoreDisplay.className = 'score fail';
+                resultMessage.innerHTML = `
+                    <p>Necesitas estudiar más los conceptos de diseño gráfico.</p>
+                    <p>Puntaje mínimo requerido: 8/10</p>
+                    <p>Te recomendamos repasar el material y intentar nuevamente.</p>
+                `;
+            }
+        }
+
+        function restartTest() {
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('startSection').style.display = 'block';
+            document.getElementById('studentName').value = '';
+            document.getElementById('progressFill').style.width = '0%';
+        }
+    </script>
+</body>
+</html>
