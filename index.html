@@ -1,581 +1,905 @@
-        
+<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test de Conceptos de Diseño Gráfico 3</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <title>Evaluación Integral C++ - RAP1 a RAP4</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: #333;
+    }
 
-        .container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            padding: 40px;
-            max-width: 800px;
-            width: 100%;
-            animation: fadeIn 0.5s ease-in;
-        }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.7;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
+    .header {
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .header h2 {
+      font-size: 2.2em;
+      margin-bottom: 10px;
+      font-weight: 300;
+    }
 
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+    .header p {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
 
-        .form-group {
-            margin-bottom: 25px;
-        }
+    .content {
+      padding: 30px;
+    }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
+    .hidden { 
+      display: none; 
+    }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1.1em;
-            transition: border-color 0.3s ease;
-        }
+    /* Formulario inicial */
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
-        }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
 
-        .btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            font-weight: bold;
-        }
+    .form-group input[type="text"] {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e1e8ed;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
+    .form-group input[type="text"]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
 
-        .btn:active {
-            transform: translateY(0);
-        }
+    /* Botones */
+    .btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-block;
+      text-decoration: none;
+    }
 
-        .test-section {
-            display: none;
-        }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
 
-        .question-counter {
-            background: #f8f9fa;
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-align: center;
-            margin-bottom: 25px;
-            color: #666;
-            font-weight: bold;
-        }
+    .btn:active {
+      transform: translateY(0);
+    }
 
-        .question {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border-left: 5px solid #667eea;
-        }
+    .btn-success {
+      background: linear-gradient(135deg, #56ab2f, #a8e6cf);
+    }
 
-        .question h3 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 1.3em;
-            line-height: 1.4;
-        }
+    .btn-danger {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    }
 
-        .options {
-            list-style: none;
-        }
+    /* Secciones RAP */
+    .rap-section {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border-left: 5px solid;
+    }
 
-        .options li {
-            margin-bottom: 12px;
-        }
+    .rap-section.rap1 { border-left-color: #e74c3c; }
+    .rap-section.rap2 { border-left-color: #f39c12; }
+    .rap-section.rap3 { border-left-color: #3498db; }
+    .rap-section.rap4 { border-left-color: #2ecc71; }
 
-        .options label {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-weight: normal;
-        }
+    .rap-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #ecf0f1;
+    }
 
-        .options label:hover {
-            background-color: #e9ecef;
-        }
+    .rap-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      font-weight: bold;
+      color: white;
+      margin-right: 15px;
+    }
 
-        .options input[type="radio"] {
-            margin-right: 12px;
-            transform: scale(1.2);
-        }
+    .rap1 .rap-icon { background: #e74c3c; }
+    .rap2 .rap-icon { background: #f39c12; }
+    .rap3 .rap-icon { background: #3498db; }
+    .rap4 .rap-icon { background: #2ecc71; }
 
-        .result-section {
-            display: none;
-            text-align: center;
-        }
+    .rap-title {
+      font-size: 1.4em;
+      font-weight: 600;
+      color: #2c3e50;
+    }
 
-        .result-card {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-        }
+    .rap-description {
+      font-size: 0.9em;
+      color: #7f8c8d;
+      margin-top: 5px;
+    }
 
-        .result-pass {
-            border-left: 5px solid #28a745;
-        }
+    /* Preguntas */
+    .question {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border: 1px solid #e1e8ed;
+      transition: all 0.3s ease;
+    }
 
-        .result-fail {
-            border-left: 5px solid #dc3545;
-        }
+    .question:hover {
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
 
-        .result-title {
-            font-size: 2em;
-            margin-bottom: 15px;
-        }
+    .question.error {
+      border-color: #e74c3c;
+      background: #fdf2f2;
+    }
 
-        .result-pass .result-title {
-            color: #28a745;
-        }
+    .question-number {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 15px;
+      font-size: 14px;
+    }
 
-        .result-fail .result-title {
-            color: #dc3545;
-        }
+    .question-text {
+      font-size: 1.1em;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
 
-        .score {
-            font-size: 3em;
-            font-weight: bold;
-            margin: 20px 0;
-        }
+    .options {
+      display: grid;
+      gap: 10px;
+    }
 
-        .score.pass {
-            color: #28a745;
-        }
+    .option {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
 
-        .score.fail {
-            color: #dc3545;
-        }
+    .option:hover {
+      background: #e9ecef;
+      transform: translateX(5px);
+    }
 
-        .navigation-buttons {
-            text-align: center;
-            margin-top: 25px;
-        }
+    .option.selected {
+      background: #e3f2fd;
+      border-color: #2196f3;
+    }
 
-        .question-image {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            border-radius: 8px;
-            margin: 15px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+    .option input[type="radio"] {
+      margin-right: 12px;
+      transform: scale(1.2);
+    }
 
-        .hidden {
-            display: none;
-        }
+    .option label {
+      cursor: pointer;
+      flex: 1;
+      font-size: 1em;
+      color: #495057;
+    }
 
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background-color: #e9ecef;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-    </style>
+    /* Progreso */
+    .progress-bar {
+      background: #e9ecef;
+      height: 8px;
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      transition: width 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .progress-text {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 600;
+      color: #6c757d;
+    }
+
+    /* Resultado */
+    .result-card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .result-score {
+      font-size: 3em;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .result-score.pass { color: #2ecc71; }
+    .result-score.fail { color: #e74c3c; }
+
+    .result-status {
+      font-size: 1.5em;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .result-status.pass { color: #2ecc71; }
+    .result-status.fail { color: #e74c3c; }
+
+    /* Ejercicios */
+    .exercises {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 25px;
+      margin-top: 30px;
+    }
+
+    .exercises h3 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      font-size: 1.3em;
+    }
+
+    .exercises ol {
+      padding-left: 20px;
+    }
+
+    .exercises li {
+      margin-bottom: 15px;
+      line-height: 1.6;
+      color: #495057;
+    }
+
+    /* Upload */
+    .upload-section {
+      background: #e8f5e8;
+      border: 2px dashed #2ecc71;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .upload-section h3 {
+      color: #2ecc71;
+      margin-bottom: 20px;
+    }
+
+    .upload-section input[type="file"] {
+      margin: 15px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+
+    /* Validación */
+    .validation-message {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      color: #856404;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      display: none;
+    }
+
+    .validation-message.show {
+      display: block;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .content {
+        padding: 15px;
+      }
+      
+      .question-text {
+        font-size: 1em;
+      }
+      
+      .result-score {
+        font-size: 2.5em;
+      }
+    }
+  </style>
+</head>
 <body>
-    <div class="container">
-        <img src='https://www.sena.edu.co/Style%20Library/alayout/images/logoSena.png' width="50px">
-        <h4>Técnico Integración de contenidos Digitales</h4>
-        <h1>Test de Conceptos de Diseño Gráfico</h1>
-        
-        
-        <!-- Sección de inicio -->
-        <div class="start-section" id="startSection">
-            <div class="form-group">
-                <label for="studentName">Ingresa tu nombre:</label>
-                <input type="text" id="studentName" placeholder="Escribe tu nombre completo">
-            </div>
-            <button class="btn" onclick="startTest()">Comenzar Test</button>
-        </div>
-
-        <!-- Sección del test -->
-        <div class="test-section" id="testSection">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="question-counter" id="questionCounter"></div>
-            <div id="questionsContainer"></div>
-            <div class="navigation-buttons">
-                <button class="btn" id="nextBtn" onclick="nextQuestion()" style="display: none;">Siguiente Pregunta</button>
-                <button class="btn" id="finishBtn" onclick="submitTest()" style="display: none;">Finalizar Test</button>
-            </div>
-            <div><h4>Instructor: Elver Siaucho CEGAFE</h4></div>
-        </div>
-
-        <!-- Sección de resultados -->
-        <div class="result-section" id="resultSection">
-            <div class="result-card" id="resultCard">
-                <div class="result-title" id="resultTitle"></div>
-                <div><strong>Estudiante:</strong> <span id="studentNameResult"></span></div>
-                <div class="score" id="scoreDisplay"></div>
-                <div id="resultMessage"></div>
-            </div>
-            <button class="btn" onclick="restartTest()">Realizar Test Nuevamente</button>
-        </div>
+  <div class="container">
+    <div class="header">
+      <h2>Evaluación Integral C++</h2>
+      <p>Prueba de Conocimientos RAP1 - RAP4</p>
     </div>
 
-    <script>
-        const questions = [
-            {
-                question: "¿Cuál es la fuente ideal para diseñar un periódico con un estilo tradicional y formal?",
-                options: [
-                    "Una fuente con cursiva y negrita",
-                    "Una fuente fantástica", 
-                    "Una fuente Serif",
-                    "Una fuente Sans serif"
-                ],
-                correct: 2
-            },
-            {
-                question: "¿Cómo se llama el color que se encuentra frente a otro en el círculo cromático?",
-                options: [
-                    "Complementario",
-                    "Extra",
-                    "Adicional", 
-                    "Opuesto"
-                ],
-                correct: 0
-            },
-            {
-                question: "Si tienes que diseñar una tarjeta, ¿cuáles elementos te ayudarían a mejorar la composición?",
-                options: [
-                    "Alineación, contraste y el tamaño de la hoja.",
-                    "Proximidad, contraste, repetición, fuentes en negrita.",
-                    "Espacio en blanco, contraste, alineación y repetición.",
-                    "Espacio en blanco, repetición y círculo cromático."
-                ],
-                correct: 2
-            },
-            {
-                question: "Hay algunos errores en el diseño de esta página, ¿cuáles son?",
-                options: [
-                    "Hay muchos elementos con forma rectangular.",
-                    "El tamaño de la fuente y los colores del título.",
-                    "El contraste y la legibilidad de la fuente.",
-                    "No hay suficiente espacio para incluir más elementos."
-                ],
-                correct: 2,
-                image: "https://media.gcflearnfree.org/assets/quizzes/es/quiz-final-conceptos-bsicos-de-diseo-grfico_08_24_2021/Contraste.png"
-            },
-            {
-                question: "¿Cuáles elementos hacen parte de los matices del color?",
-                options: [
-                    "Brillo alto, medio y bajo.",
-                    "Textura, linealidad y brillo.",
-                    "Tonalidad, saturación y brillo.",
-                    "Profundidad, saturación y tono."
-                ],
-                correct: 2
-            },
-            {
-                question: "El fondo de esta imagen parece vibrar con los demás elementos. ¿Qué ajuste debes realizar en el color para que se vea más oscuro?",
-                options: [
-                    "Aumentar la saturación y bajar el brillo.",
-                    "Bajar el brillo y la saturación del fondo.",
-                    "Aumentar el brillo y la saturación del fondo.",
-                    "Cambiar la tonalidad."
-                ],
-                correct: 1,
-                image: "https://media.gcflearnfree.org/assets/quizzes/es/quiz-final-conceptos-bsicos-de-diseo-grfico_08_24_2021/Captura%20de%20Pantalla%202021-10-07%20a%20la(s)%203.29.37%20p.%C2%A0m..png"
-            },
-            {
-                question: "Si quieres que el diseño de tu imagen se vea lo más real posible debes enfocarte en:",
-                options: [
-                    "La regla de los tres tercios.",
-                    "La textura y las líneas.",
-                    "En las formas bidimensionales y las texturas.",
-                    "Las formas abstractas y el equilibrio."
-                ],
-                correct: 2
-            },
-            {
-                question: "¿Cuáles son los componentes de la identidad visual?",
-                options: [
-                    "Fondos, texturas e imágenes",
-                    "Texturas, líneas y concepto.",
-                    "Logotipo y lema.",
-                    "Logotipo, color, tipografía e imágenes."
-                ],
-                correct: 3
-            },
-            {
-                question: "¿Cuál es la definición correcta de maquetación?",
-                options: [
-                    "Es la combinación de cada cuadro de color que hay en un diseño.",
-                    "Es la forma como distribuyen los elementos en el espacio donde se va a diseñar.",
-                    "Es la forma como queda la impresión de un diseño.",
-                    "Es la claridad con la que se ven los elementos que conforman el diseño."
-                ],
-                correct: 1
-            },
-            {
-                question: "¿Qué nombre reciben los ajustes de luz, saturación y color en una foto?",
-                options: [
-                    "Ajustes cosméticos.",
-                    "Ajustes de fondo.",
-                    "Ajustes de tonos.",
-                    "Ajustes de precisión."
-                ],
-                correct: 2
-            }
-        ];
+    <div class="content">
+      <!-- Formulario inicial -->
+ <div id="formulario">
+        <div class="form-group">
+          <label for="nombre">Nombre completo:</label>
+          <input type="text" id="nombre" placeholder="Ingrese su nombre completo">
+        </div>
+        <div class="form-group">
+          <label for="documento">Número de documento:</label>
+          <input type="text" id="documento" placeholder="Ingrese su número de documento">
+        </div>
+        <div class="form-group">
+          <label for ="clave">Clave de acceso:</label>
+          <input type="password" id="clave">
+        </div>
+        <button class="btn" onclick="iniciarQuiz()">Iniciar Evaluación</button>
+      </div>
 
-        let shuffledQuestions = [];
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-        let studentName = '';
+      <!-- Quiz -->
+      <div id="quiz" class="hidden">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        <div class="progress-text" id="progressText">Pregunta 0 de 40</div>
+        
+        <div class="validation-message" id="validationMessage">
+          <strong>¡Atención!</strong> Debe responder todas las preguntas antes de finalizar la evaluación.
+          <div id="missingQuestions"></div>
+        </div>
+        
+        <div id="quizContent"></div>
+        <button class="btn btn-success" onclick="finalizarQuiz()" style="margin-top: 30px;">Finalizar Evaluación</button>
+      </div>
 
-        function shuffleArray(array) {
-            const shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
+      <!-- Resultado -->
+      <div id="resultado" class="hidden"></div>
+
+      <!-- Ejercicios -->
+      <div id="ejercicios" class="hidden"></div>
+
+      <!-- Upload -->
+      <div id="upload" class="hidden">
+        <div class="upload-section">
+          <h3>📁 Sube tus ejercicios prácticos</h3>
+          <p>Comprima sus archivos en formato .zip o .rar</p>
+          <form id="uploadForm" enctype="multipart/form-data" method="post" action="/upload">
+            <input type="file" name="archivo" accept=".zip,.rar" required>
+            <br>
+            <button type="submit" class="btn">Subir Archivos</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ================= RAP1 - Fundamentos ================= */
+    const preguntasRAP1 = [
+      { q: "¿Cuál es la función principal obligatoria en C++?", opts: ["main()", "start()", "init()"], ans: "main()" },
+      { q: "¿Qué librería se usa para entrada y salida estándar en C++?", opts: ["&lt;stdio.h&gt;", "&lt;iostream&gt;", "&lt;math.h&gt;"], ans: "&lt;iostream&gt;" },
+      { q: "¿Cómo se define un comentario de una sola línea en C++?", opts: ["// comentario", "/* comentario */", "# comentario"], ans: "// comentario" },
+      { q: "¿Cuál de los siguientes es un identificador válido?", opts: ["1dato", "mi_variable", "nombre completo"], ans: "mi_variable" },
+      { q: "¿Qué instrucción permite incluir librerías?", opts: ["#define", "#include", "import"], ans: "#include" },
+      { q: "¿Qué palabra reservada se usa para declarar una constante?", opts: ["const", "final", "let"], ans: "const" },
+      { q: "¿Qué símbolo finaliza cada instrucción en C++?", opts: [".", ";", ":"], ans: ";" },
+      { q: "¿Cuál es el tipo de dato adecuado para caracteres?", opts: ["int", "char", "string"], ans: "char" },
+      { q: "¿Qué palabra reservada define una variable entera?", opts: ["float", "int", "double"], ans: "int" },
+      { q: "¿Qué tipo de variable existe solo dentro de una función?", opts: ["Global", "Local", "Estática"], ans: "Local" },
+      { q: "¿Cuál de estas NO es palabra reservada en C++?", opts: ["while", "switch", "repeat"], ans: "repeat" },
+      { q: "¿Qué instrucción imprime en pantalla en C++?", opts: ["printf()", "cout <<", "echo"], ans: "cout <<" }
+    ];
+
+    const ejerciciosRAP1 = [
+      "Escribir un programa en C++ que declare variables de cada tipo primitivo y muestre sus valores.",
+      "Crear un programa que solicite el nombre y la edad del usuario y los imprima en pantalla.",
+      "Hacer un programa que defina una constante con const y la utilice en una operación matemática.",
+      "Implementar un programa que valide identificadores válidos e inválidos."
+    ];
+
+    /* ================= RAP2 - Operadores ================= */
+    const preguntasRAP2 = [
+      { q: "¿Cuál es el operador de asignación en C++?", opts: ["=", "==", ":="], ans: "=" },
+      { q: "El operador '!=' significa:", opts: ["Mayor que", "Diferente de", "Igual a"], ans: "Diferente de" },
+      { q: "¿Qué devuelve la expresión (9 < 12) && (2 <= 2)?", opts: ["true", "false", "error"], ans: "true" },
+      { q: "¿Cuál tiene mayor precedencia?", opts: ["*", "+", "-"], ans: "*" },
+      { q: "Resultado de 19 - 3 * 4 + 39", opts: ["61", "46", "34"], ans: "46" },
+      { q: "¿Qué significa 'a += b'?", opts: ["a = b", "a = a + b", "a = a - b"], ans: "a = a + b" },
+      { q: "El operador lógico OR en C++ es:", opts: ["&&", "||", "!"], ans: "||" },
+      { q: "La función sqrt(x) calcula:", opts: ["Potencia", "Raíz cuadrada", "Logaritmo"], ans: "Raíz cuadrada" },
+      { q: "¿Qué tipo de dato devuelve una expresión relacional?", opts: ["int", "bool", "float"], ans: "bool" },
+      { q: "El operador '%' devuelve:", opts: ["Cociente", "Residuo", "Potencia"], ans: "Residuo" },
+      { q: "¿Cuál de estas funciones devuelve el valor máximo entre dos números?", opts: ["fmax", "sqrt", "pow"], ans: "fmax" },
+      { q: "¿Qué función redondea un número hacia arriba?", opts: ["floor()", "ceil()", "round()"], ans: "ceil()" }
+    ];
+
+    const ejerciciosRAP2 = [
+      "Programa que calcule el resultado de 25 % 4.",
+      "Solicitar dos números y mostrar el mayor usando operadores relacionales.",
+      "Calcular la raíz cuadrada y el valor máximo entre dos números usando <math.h>.",
+      "Evaluar la expresión (5*3 + 8) - (12/4) y mostrar el resultado."
+    ];
+
+    /* ================= RAP3 - Estructuras de Control ================= */
+    const preguntasRAP3 = [
+      { q: "¿Qué valor devuelve una condición en C++?", opts: ["int", "bool", "float"], ans: "bool" },
+      { q: "La estructura if se usa para:", opts: ["Ciclos", "Decisiones", "Importar librerías"], ans: "Decisiones" },
+      { q: "¿Qué palabra se usa para la condición falsa de un if?", opts: ["else", "default", "switch"], ans: "else" },
+      { q: "¿Cuál es la sintaxis correcta de if-else?", opts: ["if(condición){} else {}", "if() else {}", "if{}else()"], ans: "if(condición){} else {}" },
+      { q: "¿Qué instrucción se usa para múltiples caminos de decisión?", opts: ["switch", "goto", "while"], ans: "switch" },
+      { q: "El estatuto switch evalúa:", opts: ["Valores múltiples", "Solo booleanos", "Números decimales"], ans: "Valores múltiples" },
+      { q: "¿Qué palabra se usa para salir de un switch?", opts: ["stop", "exit", "break"], ans: "break" },
+      { q: "¿Cómo se llaman los if dentro de otros if?", opts: ["Condiciones secuenciales", "Condiciones anidadas", "Condiciones múltiples"], ans: "Condiciones anidadas" },
+      { q: "El valor por defecto en switch se declara con:", opts: ["case 0", "default", "else"], ans: "default" },
+      { q: "¿Qué estructura usaría para verificar si dos números son iguales?", opts: ["if-else", "switch", "for"], ans: "if-else" },
+      { q: "¿Qué operador lógico se usa en condiciones compuestas?", opts: ["&& y ||", "+ y -", "++ y --"], ans: "&& y ||" },
+      { q: "En un if(condición), la condición debe ser:", opts: ["Un número", "Una expresión booleana", "Una cadena"], ans: "Una expresión booleana" }
+    ];
+
+    const ejerciciosRAP3 = [
+      "Programa que lea dos números y determine si son iguales, mayores o menores.",
+      "Programa que valide si una calificación está entre 0 y 5 y muestre aprobado/reprobado.",
+      "Implementar un menú con switch que permita elegir operaciones matemáticas.",
+      "Programa que dado un número del 1 al 7 muestre el día de la semana con switch."
+    ];
+
+    /* ================= RAP4 - Ciclos ================= */
+    const preguntasRAP4 = [
+      { q: "El ciclo while ejecuta instrucciones:", opts: ["Una sola vez", "Mientras la condición sea verdadera", "Siempre"], ans: "Mientras la condición sea verdadera" },
+      { q: "¿Qué ciclo garantiza al menos una ejecución?", opts: ["while", "do while", "for"], ans: "do while" },
+      { q: "El ciclo for se usa cuando:", opts: ["Se desconoce la cantidad de repeticiones", "Se conoce la cantidad de repeticiones", "Nunca se conoce"], ans: "Se conoce la cantidad de repeticiones" },
+      { q: "¿Cuál es el orden de la estructura for?", opts: ["Inicialización, condición, incremento", "Condición, inicialización, incremento", "Incremento, inicialización, condición"], ans: "Inicialización, condición, incremento" },
+      { q: "¿Qué instrucción finaliza un ciclo inmediatamente?", opts: ["continue", "exit", "break"], ans: "break" },
+      { q: "¿Qué ocurre si la condición de un while nunca se vuelve falsa?", opts: ["Error de sintaxis", "Ciclo infinito", "Termina solo"], ans: "Ciclo infinito" },
+      { q: "¿Qué ciclo evalúa la condición al final?", opts: ["while", "for", "do while"], ans: "do while" },
+      { q: "¿Qué palabra reservada permite saltar a la siguiente iteración?", opts: ["next", "continue", "skip"], ans: "continue" },
+      { q: "¿Cuál es la variable que controla un ciclo for?", opts: ["Contador", "Acumulador", "Constante"], ans: "Contador" },
+      { q: "¿Cuál es el uso principal de los bucles en programación?", opts: ["Tomar decisiones", "Repetir instrucciones", "Declarar variables"], ans: "Repetir instrucciones" },
+      { q: "¿Cuál es un riesgo de los ciclos infinitos?", opts: ["Optimización", "Consumo excesivo de recursos", "Mayor velocidad"], ans: "Consumo excesivo de recursos" },
+      { q: "El ciclo while requiere que:", opts: ["La condición sea booleana", "La condición sea numérica", "No tenga condición"], ans: "La condición sea booleana" }
+    ];
+
+    const ejerciciosRAP4 = [
+      "Programa que calcule la suma de números pares del 1 al 100 usando while.",
+      "Programa que lea 5 notas y calcule el promedio con do while.",
+      "Programa que solicite 10 números y cuente cuántos son mayores a 50 usando for.",
+      "Programa que implemente un ciclo infinito controlado por el usuario."
+    ];
+
+    /* ================= Variables globales ================= */
+    let preguntasSeleccionadas = [];
+    let respuestasUsuario = [];
+    const totalPreguntas = 40;
+    const puntosPorPregunta = 100 / totalPreguntas;
+
+    const rapInfo = {
+      rap1: { title: "RAP1 - Fundamentos", description: "Conceptos básicos de C++", icon: "1" },
+      rap2: { title: "RAP2 - Operadores", description: "Operadores y expresiones", icon: "2" },
+      rap3: { title: "RAP3 - Control", description: "Estructuras de decisión", icon: "3" },
+      rap4: { title: "RAP4 - Ciclos", description: "Estructuras repetitivas", icon: "4" }
+    };
+
+    /* ================= Funciones principales ================= */
+    function iniciarQuiz() {
+      const nombre = document.getElementById("nombre").value.trim();
+      const documento = document.getElementById("documento").value.trim();
+      const clave = document.getElementById("clave").value;
+
+      if (!nombre || !documento || !clave) { 
+        alert("Complete todos los campos (nombre, documento y clave)");  
+        return; 
+      }
+
+        if (clave !== "programación.c++") {
+          alert("❌ Clave incorrecta. Intente de nuevo.");
+          return;
+        }
+       document.getElementById("formulario").classList.add("hidden");
+
+      // Seleccionar 10 preguntas aleatorias de cada RAP
+      function elegirPreguntas(array) {
+        return [...array].sort(() => Math.random() - 0.5).slice(0, 10);
+      }
+
+      const rap1Selected = elegirPreguntas(preguntasRAP1);
+      const rap2Selected = elegirPreguntas(preguntasRAP2);
+      const rap3Selected = elegirPreguntas(preguntasRAP3);
+      const rap4Selected = elegirPreguntas(preguntasRAP4);
+
+      preguntasSeleccionadas = [
+        ...rap1Selected.map(p => ({...p, rap: 'rap1'})),
+        ...rap2Selected.map(p => ({...p, rap: 'rap2'})),
+        ...rap3Selected.map(p => ({...p, rap: 'rap3'})),
+        ...rap4Selected.map(p => ({...p, rap: 'rap4'}))
+      ];
+
+      // Inicializar array de respuestas
+      respuestasUsuario = new Array(totalPreguntas).fill(null);
+
+      mostrarPreguntas();
+      document.getElementById("quiz").classList.remove("hidden");
+      actualizarProgreso();
+    }
+
+    function mostrarPreguntas() {
+      let quizHTML = "";
+      let currentRap = "";
+      let questionIndex = 0;
+
+      preguntasSeleccionadas.forEach((pregunta, index) => {
+        // Crear nueva sección RAP si es necesario
+        if (pregunta.rap !== currentRap) {
+          if (currentRap !== "") {
+            quizHTML += "</div>"; // Cerrar sección anterior
+          }
+          currentRap = pregunta.rap;
+          const rapData = rapInfo[currentRap];
+          quizHTML += `
+            <div class="rap-section ${currentRap}">
+              <div class="rap-header">
+                <div class="rap-icon">${rapData.icon}</div>
+                <div>
+                  <div class="rap-title">${rapData.title}</div>
+                  <div class="rap-description">${rapData.description}</div>
+                </div>
+              </div>
+          `;
         }
 
-        function shuffleOptions(question) {
-            const correctAnswer = question.options[question.correct];
-            const shuffledOptions = shuffleArray(question.options);
-            const newCorrectIndex = shuffledOptions.indexOf(correctAnswer);
-            
-            return {
-                ...question,
-                options: shuffledOptions,
-                correct: newCorrectIndex
-            };
-        }
-
-        function startTest() {
-            const nameInput = document.getElementById('studentName');
-            studentName = nameInput.value.trim();
-            
-            if (!studentName) {
-                alert('Por favor, ingresa tu nombre para comenzar el test.');
-                return;
-            }
-
-            // Mezclar preguntas y opciones
-            shuffledQuestions = shuffleArray(questions).map(shuffleOptions);
-            userAnswers = new Array(shuffledQuestions.length);
-            currentQuestionIndex = 0;
-
-            document.getElementById('startSection').style.display = 'none';
-            document.getElementById('testSection').style.display = 'block';
-            
-            displayQuestions();
-            updateProgress();
-        }
-
-        function displayQuestions() {
-            const container = document.getElementById('questionsContainer');
-            const counter = document.getElementById('questionCounter');
-            
-            counter.textContent = `Pregunta ${currentQuestionIndex + 1} de ${shuffledQuestions.length}`;
-            
-            let html = '';
-            
-            for (let i = 0; i < shuffledQuestions.length; i++) {
-                const q = shuffledQuestions[i];
-                html += `
-                    <div class="question ${i !== currentQuestionIndex ? 'hidden' : ''}">
-                        <h3>${q.question}</h3>
-                        ${q.image ? `<img src="${q.image}" alt="Imagen de ejemplo" class="question-image">` : ''}
-                        ${q.imageHtml ? q.imageHtml : ''}
-                        <ul class="options">
-                            ${q.options.map((option, index) => `
-                                <li>
-                                    <label>
-                                        <input type="radio" name="question${i}" value="${index}" 
-                                               onchange="saveAnswer(${i}, ${index}); showNextButton()">
-                                        ${option}
-                                    </label>
-                                </li>
-                            `).join('')}
-                        </ul>
+        // Mezclar opciones aleatoriamente
+        const opciones = [...pregunta.opts].sort(() => Math.random() - 0.5);
+        
+        quizHTML += `
+          <div class="question" id="question-${index}">
+            <div style="display: flex; align-items: flex-start;">
+              <span class="question-number">${index + 1}</span>
+              <div style="flex: 1;">
+                <div class="question-text">${pregunta.q}</div>
+                <div class="options">
+                  ${opciones.map(opcion => `
+                    <div class="option" onclick="seleccionarRespuesta(${index}, '${opcion}')">
+                      <input type="radio" name="q${index}" value="${opcion}" id="q${index}_${opcion}">
+                      <label for="q${index}_${opcion}">${opcion}</label>
                     </div>
+                  `).join("")}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      if (currentRap !== "") {
+        quizHTML += "</div>"; // Cerrar última sección
+      }
+
+      document.getElementById("quizContent").innerHTML = quizHTML;
+    }
+
+    function seleccionarRespuesta(index, respuesta) {
+      respuestasUsuario[index] = respuesta;
+      
+      // Actualizar UI
+      const questionDiv = document.getElementById(`question-${index}`);
+      questionDiv.classList.remove('error');
+      
+      // Remover selección anterior
+      questionDiv.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+      
+      // Marcar nueva selección
+      event.currentTarget.classList.add('selected');
+      
+      actualizarProgreso();
+    }
+
+    function actualizarProgreso() {
+      const respondidas = respuestasUsuario.filter(r => r !== null).length;
+      const porcentaje = (respondidas / totalPreguntas) * 100;
+      
+      document.getElementById("progressFill").style.width = porcentaje + "%";
+      document.getElementById("progressText").textContent = `Pregunta ${respondidas} de ${totalPreguntas}`;
+    }
+
+    function validarRespuestas() {
+      const preguntasSinResponder = [];
+      
+      respuestasUsuario.forEach((respuesta, index) => {
+        const questionDiv = document.getElementById(`question-${index}`);
+        if (respuesta === null) {
+          preguntasSinResponder.push(index + 1);
+          questionDiv.classList.add('error');
+          questionDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          questionDiv.classList.remove('error');
+        }
+      });
+
+      if (preguntasSinResponder.length > 0) {
+        const validationMessage = document.getElementById("validationMessage");
+        const missingQuestions = document.getElementById("missingQuestions");
+        
+        missingQuestions.innerHTML = `<br><strong>Preguntas sin responder:</strong> ${preguntasSinResponder.join(', ')}`;
+        validationMessage.classList.add('show');
+        
+        // Scroll to first unanswered question
+        setTimeout(() => {
+          const firstUnanswered = document.getElementById(`question-${preguntasSinResponder[0] - 1}`);
+          firstUnanswered.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+        
+        return false;
+      }
+      
+      document.getElementById("validationMessage").classList.remove('show');
+      return true;
+    }
+
+    function finalizarQuiz() {
+      if (!validarRespuestas()) {
+        return;
+      }
+
+      const nombre = document.getElementById("nombre").value;
+      const documento = document.getElementById("documento").value;
+
+      let score = 0;
+      let correctas = 0;
+      let detallesRAP = {
+        rap1: { correctas: 0, total: 0 },
+        rap2: { correctas: 0, total: 0 },
+        rap3: { correctas: 0, total: 0 },
+        rap4: { correctas: 0, total: 0 }
+      };
+
+      preguntasSeleccionadas.forEach((pregunta, index) => {
+        const respuestaUsuario = respuestasUsuario[index];
+        detallesRAP[pregunta.rap].total++;
+        
+        if (respuestaUsuario === pregunta.ans) {
+          score += puntosPorPregunta;
+          correctas++;
+          detallesRAP[pregunta.rap].correctas++;
+        }
+      });
+
+      const aprueba = score >= 70;
+      const scoreClass = aprueba ? 'pass' : 'fail';
+
+      document.getElementById("quiz").classList.add("hidden");
+      
+      // Mostrar resultado detallado
+      document.getElementById("resultado").innerHTML = `
+        <div class="result-card">
+          <h3>📋 Resultado de la Evaluación</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; text-align: left;">
+            <div><strong>Nombre:</strong> ${nombre}</div>
+            <div><strong>Documento:</strong> ${documento}</div>
+          </div>
+          
+          <div class="result-score ${scoreClass}">${score.toFixed(1)}/100</div>
+          <div class="result-status ${scoreClass}">
+            ${aprueba ? '✅ APROBADO' : '❌ REPROBADO'}
+          </div>
+          
+          <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; margin: 20px 0;">
+            <h4 style="margin-bottom: 15px; color: #2c3e50;">📊 Detalle por Módulos</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+              ${Object.entries(detallesRAP).map(([rap, datos]) => {
+                const porcentaje = (datos.correctas / datos.total) * 100;
+                const rapData = rapInfo[rap];
+                return `
+                  <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid ${getColorByRAP(rap)};">
+                    <div style="font-weight: bold; color: #2c3e50; margin-bottom: 5px;">${rapData.title}</div>
+                    <div style="font-size: 1.2em; font-weight: bold; color: ${porcentaje >= 70 ? '#2ecc71' : '#e74c3c'};">
+                      ${datos.correctas}/${datos.total} (${porcentaje.toFixed(0)}%)
+                    </div>
+                  </div>
                 `;
-            }
-            
-            container.innerHTML = html;
-            updateNavigationButtons();
-        }
+              }).join('')}
+            </div>
+          </div>
+          
+          <div style="background: #e8f4fd; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <strong>📈 Resumen:</strong> ${correctas} respuestas correctas de ${totalPreguntas} preguntas
+          </div>
+          
+          ${aprueba ? 
+            '<div style="color: #2ecc71; font-weight: bold;">¡Felicitaciones! Ha aprobado la evaluación.</div>' : 
+            '<div style="color: #e74c3c; font-weight: bold;">Debe estudiar más para aprobar. Repase los temas con menor puntuación.</div>'
+          }
+        </div>
+      `;
+      document.getElementById("resultado").classList.remove("hidden");
 
-        function saveAnswer(questionIndex, answerIndex) {
-            userAnswers[questionIndex] = answerIndex;
-        }
+      // Mostrar ejercicios prácticos
+      mostrarEjercicios();
+      document.getElementById("upload").classList.remove("hidden");
+    }
 
-        function showNextButton() {
-            updateNavigationButtons();
-        }
+    function getColorByRAP(rap) {
+      const colors = {
+        rap1: '#e74c3c',
+        rap2: '#f39c12',
+        rap3: '#3498db',
+        rap4: '#2ecc71'
+      };
+      return colors[rap] || '#6c757d';
+    }
 
-        function updateNavigationButtons() {
-            const nextBtn = document.getElementById('nextBtn');
-            const finishBtn = document.getElementById('finishBtn');
-            const hasAnswer = userAnswers[currentQuestionIndex] !== undefined;
-            
-            if (hasAnswer) {
-                if (currentQuestionIndex === shuffledQuestions.length - 1) {
-                    // Última pregunta - mostrar botón finalizar
-                    nextBtn.style.display = 'none';
-                    finishBtn.style.display = 'inline-block';
-                } else {
-                    // Pregunta intermedia - mostrar botón siguiente
-                    nextBtn.style.display = 'inline-block';
-                    finishBtn.style.display = 'none';
-                }
-            } else {
-                // Sin respuesta - ocultar ambos botones
-                nextBtn.style.display = 'none';
-                finishBtn.style.display = 'none';
-            }
-        }
+    function mostrarEjercicios() {
+      const todosEjercicios = [
+        ...ejerciciosRAP1.map(e => ({ejercicio: e, rap: 'RAP1 - Fundamentos'})),
+        ...ejerciciosRAP2.map(e => ({ejercicio: e, rap: 'RAP2 - Operadores'})),
+        ...ejerciciosRAP3.map(e => ({ejercicio: e, rap: 'RAP3 - Control'})),
+        ...ejerciciosRAP4.map(e => ({ejercicio: e, rap: 'RAP4 - Ciclos'}))
+      ];
+      
+      const seleccionados = [...todosEjercicios].sort(() => Math.random() - 0.5).slice(0, 4);
+      
+      document.getElementById("ejercicios").innerHTML = `
+        <div class="exercises">
+          <h3>💻 Ejercicios Prácticos Asignados</h3>
+          <p style="margin-bottom: 20px; color: #6c757d;">
+            Complete los siguientes ejercicios y súbalos en formato comprimido (.zip o .rar):
+          </p>
+          <div style="display: grid; gap: 15px;">
+            ${seleccionados.map((item, index) => `
+              <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                  <span style="background: #667eea; color: white; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; font-size: 14px;">
+                    ${index + 1}
+                  </span>
+                  <span style="font-size: 0.9em; color: #6c757d; font-weight: bold;">
+                    ${item.rap}
+                  </span>
+                </div>
+                <div style="color: #2c3e50; line-height: 1.6;">
+                  ${item.ejercicio}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          
+          <div style="background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <strong>📝 Instrucciones:</strong>
+            <ul style="margin: 10px 0 0 20px; line-height: 1.6;">
+              <li>Cree un archivo .cpp para cada ejercicio</li>
+              <li>Documente su código con comentarios explicativos</li>
+              <li>Asegúrese de que los programas compilen sin errores</li>
+              <li>Incluya ejemplos de ejecución en comentarios</li>
+              <li>Comprima todos los archivos en un solo .zip o .rar</li>
+            </ul>
+          </div>
+        </div>
+      `;
+      document.getElementById("ejercicios").classList.remove("hidden");
+    }
 
-        function nextQuestion() {
-            const currentQuestion = document.querySelector('.question:not(.hidden)');
-            currentQuestion.classList.add('hidden');
-            
-            currentQuestionIndex++;
-            updateProgress();
-            
-            if (currentQuestionIndex < shuffledQuestions.length) {
-                const nextQuestion = document.querySelectorAll('.question')[currentQuestionIndex];
-                nextQuestion.classList.remove('hidden');
-                
-                document.getElementById('questionCounter').textContent = 
-                    `Pregunta ${currentQuestionIndex + 1} de ${shuffledQuestions.length}`;
-                
-                updateNavigationButtons();
-            }
+    // Event listener para mejorar la interacción
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mejorar la accesibilidad del teclado
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.type === 'radio') {
+          e.target.click();
         }
+      });
 
-        function updateProgress() {
-            const progress = ((currentQuestionIndex) / shuffledQuestions.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-        }
+      // Validación en tiempo real del formulario
+      const nombreInput = document.getElementById('nombre');
+      const documentoInput = document.getElementById('documento');
+      
+      [nombreInput, documentoInput].forEach(input => {
+        input.addEventListener('input', function() {
+          if (this.value.trim()) {
+            this.style.borderColor = '#2ecc71';
+          } else {
+            this.style.borderColor = '#e1e8ed';
+          }
+        });
+      });
 
-        function submitTest() {
-            let score = 0;
-            
-            for (let i = 0; i < shuffledQuestions.length; i++) {
-                if (userAnswers[i] === shuffledQuestions[i].correct) {
-                    score++;
-                }
-            }
-            
-            const passed = score >= 8;
-            
-            document.getElementById('testSection').style.display = 'none';
-            document.getElementById('resultSection').style.display = 'block';
-            
-            const resultCard = document.getElementById('resultCard');
-            const resultTitle = document.getElementById('resultTitle');
-            const scoreDisplay = document.getElementById('scoreDisplay');
-            const resultMessage = document.getElementById('resultMessage');
-            
-            document.getElementById('studentNameResult').textContent = studentName;
-            scoreDisplay.textContent = `${score}/10`;
-            
-            if (passed) {
-                resultCard.className = 'result-card result-pass';
-                resultTitle.textContent = '¡APROBADO!';
-                scoreDisplay.className = 'score pass';
-                resultMessage.innerHTML = `
-                    <p>¡Excelente trabajo! Has demostrado un buen conocimiento de los conceptos de diseño gráfico.</p>
-                    <p>Puntaje mínimo requerido: 8/10</p>
-                `;
-            } else {
-                resultCard.className = 'result-card result-fail';
-                resultTitle.textContent = 'NO APROBADO';
-                scoreDisplay.className = 'score fail';
-                resultMessage.innerHTML = `
-                    <p>Necesitas estudiar más los conceptos de diseño gráfico.</p>
-                    <p>Puntaje mínimo requerido: 8/10</p>
-                    <p>Te recomendamos repasar el material y intentar nuevamente.</p>
-                `;
-            }
+      // Prevenir envío accidental del formulario
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.target.matches('button, input[type="submit"]')) {
+          e.preventDefault();
         }
+      });
+    });
 
-        function restartTest() {
-            document.getElementById('resultSection').style.display = 'none';
-            document.getElementById('startSection').style.display = 'block';
-            document.getElementById('studentName').value = '';
-            document.getElementById('progressFill').style.width = '0%';
-        }
-    </script>
+    // Función para reiniciar la evaluación
+    function reiniciarEvaluacion() {
+      if (confirm('¿Está seguro que desea reiniciar la evaluación? Se perderán todos los datos ingresados.')) {
+        location.reload();
+      }
+    }
+
+    // Prevenir navegación accidental
+    window.addEventListener('beforeunload', function(e) {
+      if (!document.getElementById('quiz').classList.contains('hidden')) {
+        e.preventDefault();
+        e.returnValue = '';
+        return 'Tiene una evaluación en progreso. ¿Está seguro que desea salir?';
+      }
+    });
+
+    // Auto-save en localStorage (opcional - comentado por restricciones)
+    /*
+    function guardarProgreso() {
+      const progreso = {
+        nombre: document.getElementById('nombre').value,
+        documento: document.getElementById('documento').value,
+        respuestas: respuestasUsuario,
+        preguntas: preguntasSeleccionadas
+      };
+      localStorage.setItem('evaluacion_cpp_progreso', JSON.stringify(progreso));
+    }
+    */
+
+    console.log('🎓 Sistema de Evaluación C++ cargado correctamente');
+    console.log('📚 Módulos: RAP1-Fundamentos, RAP2-Operadores, RAP3-Control, RAP4-Ciclos');
+    console.log('✅ Validación completa implementada');
+  </script>
 </body>
 </html>
+        
