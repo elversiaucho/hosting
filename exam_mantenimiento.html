@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación de Mantenimiento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        
+        .student-info {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .question {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .question h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .option label {
+            cursor: pointer;
+            margin: 0;
+            font-weight: 400;
+            flex: 1;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 30px auto;
+        }
+        
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result {
+            display: none;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .result h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .approved {
+            color: #28a745;
+        }
+        
+        .failed {
+            color: #dc3545;
+        }
+        
+        .result-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .result-info p {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Evaluación de Mantenimiento</h1>
+        
+        <div id="examForm">
+            <div class="student-info">
+                <h2 style="color: #667eea; margin-bottom: 20px;">Información del Aprendiz</h2>
+                <div class="form-group">
+                    <label>Nombre Completo:</label>
+                    <input type="text" id="studentName" required placeholder="Ingrese su nombre completo">
+                </div>
+                <div class="form-group">
+                    <label>Número de Documento:</label>
+                    <input type="text" id="studentId" required placeholder="Ingrese su número de documento">
+                </div>
+            </div>
+            
+            <div id="questionsContainer"></div>
+            
+            <button class="btn" onclick="submitExam()">Enviar Evaluación</button>
+        </div>
+        
+        <div class="result" id="result">
+            <h2>Resultado de la Evaluación</h2>
+            <div class="result-info">
+                <p><strong>Aprendiz:</strong> <span id="resultName"></span></p>
+                <p><strong>Documento:</strong> <span id="resultId"></span></p>
+            </div>
+            <div class="score" id="scoreDisplay"></div>
+            <div id="statusDisplay"></div>
+            <button class="btn" id="pdfButton" onclick="generatePDF()" style="display: none;">📄 Guardar en PDF</button>
+            <button class="btn" onclick="location.reload()">Realizar Nuevo Examen</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        const questions = [
+            {
+                id: 1,
+                question: "Una lupa es un instrumento eléctrico cuya parte principal es una lente convergente que se emplea para obtener una visión reducida de un objeto.",
+                options: ["Verdadero", "Falso"],
+                correct: 1
+            },
+            {
+                id: 2,
+                question: "Los destornilladores pequeños están especialmente diseñados para uso en pequeños tornillos.",
+                options: ["Verdadero", "Falso"],
+                correct: 0
+            },
+            {
+                id: 3,
+                question: "La pulsera antiestática es un elemento de trabajo, el cual desprotege los componentes electrónicos de descargas de electricidad estática con la que se carga el cuerpo humano.",
+                options: ["Verdadero", "Falso"],
+                correct: 1
+            },
+            {
+                id: 4,
+                question: "El multímetro es un instrumento eléctrico portátil para medir directamente magnitudes eléctricas activas como corrientes y potenciales o pasivas como resistencias.",
+                options: ["Verdadero", "Falso"],
+                correct: 0
+            },
+            {
+                id: 5,
+                question: "El mantenimiento de una computadora es aquel que nos sirve para encontrar un problema tanto de hardware como de software.",
+                options: ["Verdadero", "Falso"],
+                correct: 1
+            },
+            {
+                id: 6,
+                question: "El monitor se considera un dispositivo de salida.",
+                options: ["Verdadero", "Falso"],
+                correct: 0
+            },
+            {
+                id: 7,
+                question: "El teclado y el mouse se consideran un dispositivo de salida.",
+                options: ["Verdadero", "Falso"],
+                correct: 1
+            },
+            {
+                id: 8,
+                question: "¿Qué función cumple el antivirus como herramienta de mantenimiento?",
+                options: [
+                    "Es la que acomoda los archivos del disco duro",
+                    "Realiza un análisis del sistema en busca de virus y programas que causan una inestabilidad en el sistema",
+                    "Elimina archivos generados por aplicaciones instaladas en el equipo",
+                    "Se vacían todos los archivos eliminados de la computadora"
+                ],
+                correct: 1
+            },
+            {
+                id: 9,
+                question: "¿Qué hace el proceso de eliminación de archivos TMP?",
+                options: [
+                    "Se vacían todos los archivos eliminados de la computadora",
+                    "Es la que acomoda los archivos del disco duro",
+                    "Realiza un análisis del sistema en busca de virus y programas que causan una inestabilidad en el sistema",
+                    "Elimina archivos generados por aplicaciones instaladas en el equipo"
+                ],
+                correct: 3
+            },
+            {
+                id: 10,
+                question: "La grasa de silicona ¿a qué componente interno del computador se aplica?",
+                options: [
+                    "Memoria RAM",
+                    "Fuente de poder",
+                    "Procesador",
+                    "Tarjeta de red"
+                ],
+                correct: 2
+            },
+            {
+                id: 11,
+                question: "¿Qué líquido o sustancia es recomendable para la limpieza de componentes internos o externos de la computadora?",
+                options: [
+                    "Alcohol isopropílico",
+                    "Agua y jabón",
+                    "Quita grasa",
+                    "Desinfectante"
+                ],
+                correct: 0
+            },
+            {
+                id: 12,
+                question: "Podríamos afirmar que el mantenimiento preventivo puede ser:",
+                options: [
+                    "Ocurrencia",
+                    "Reactivo",
+                    "Solicitado",
+                    "Planificado"
+                ],
+                correct: 3
+            },
+            {
+                id: 13,
+                question: "El mantenimiento correctivo denominado reactivo tiene lugar a:",
+                options: [
+                    "Se realiza de manera rutinaria",
+                    "No se presentan fallas",
+                    "Cuando se presenta una falla",
+                    "Ocurrencia de algún miembro del grupo de soporte"
+                ],
+                correct: 2
+            },
+            {
+                id: 14,
+                question: "Al realizar el mantenimiento a un equipo de cómputo lo primero que se debe realizar es:",
+                options: [
+                    "Desarmar el equipo de cómputo",
+                    "Verificar el estado del equipo de cómputo",
+                    "Realizar la limpieza de los componentes internos",
+                    "Realizar la limpieza de los componentes externos"
+                ],
+                correct: 1
+            },
+            {
+                id: 15,
+                question: "Al realizar el mantenimiento a un equipo de cómputo y el cliente acepta el procedimiento, el miembro de soporte técnico realiza lo siguiente:",
+                options: [
+                    "Realizar el informe de soporte técnico",
+                    "Conectar el equipo de cómputo",
+                    "Ubicar el equipo en el sitio de trabajo",
+                    "Verificar el funcionamiento correcto del equipo"
+                ],
+                correct: 3
+            }
+        ];
+
+        let userAnswers = {};
+        let shuffledQuestions = [];
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function initExam() {
+            shuffledQuestions = shuffleArray(questions);
+            const container = document.getElementById('questionsContainer');
+            
+            shuffledQuestions.forEach((q, index) => {
+                const shuffledOptions = shuffleArray(q.options.map((opt, i) => ({ text: opt, index: i })));
+                
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <h3>Pregunta ${index + 1}</h3>
+                    <p>${q.question}</p>
+                    <div class="options">
+                        ${shuffledOptions.map(opt => `
+                            <div class="option">
+                                <input type="radio" id="q${q.id}_${opt.index}" name="question${q.id}" value="${opt.index}">
+                                <label for="q${q.id}_${opt.index}">${opt.text}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function submitExam() {
+            const name = document.getElementById('studentName').value.trim();
+            const studentId = document.getElementById('studentId').value.trim();
+            
+            if (!name || !studentId) {
+                alert('Por favor, ingrese su nombre y número de documento.');
+                return;
+            }
+            
+            userAnswers = {};
+            let answeredCount = 0;
+            
+            questions.forEach(q => {
+                const selected = document.querySelector(`input[name="question${q.id}"]:checked`);
+                if (selected) {
+                    userAnswers[q.id] = parseInt(selected.value);
+                    answeredCount++;
+                }
+            });
+            
+            if (answeredCount < questions.length) {
+                alert('Por favor, responda todas las preguntas antes de enviar.');
+                return;
+            }
+            
+            calculateScore(name, studentId);
+        }
+
+        function calculateScore(name, studentId) {
+            let correctCount = 0;
+            
+            questions.forEach(q => {
+                if (userAnswers[q.id] === q.correct) {
+                    correctCount++;
+                }
+            });
+            
+            const score = (correctCount / questions.length) * 5;
+            const roundedScore = Math.round(score * 10) / 10;
+            
+            displayResult(name, studentId, roundedScore, correctCount);
+        }
+
+        function displayResult(name, studentId, score, correctCount) {
+            document.getElementById('examForm').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+            
+            document.getElementById('resultName').textContent = name;
+            document.getElementById('resultId').textContent = studentId;
+            document.getElementById('scoreDisplay').textContent = score.toFixed(1);
+            
+            const statusDiv = document.getElementById('statusDisplay');
+            const scoreSpan = document.getElementById('scoreDisplay');
+            
+            if (score >= 3.5) {
+                statusDiv.innerHTML = '<h3 class="approved">✅ APROBADO</h3>';
+                scoreSpan.className = 'score approved';
+                document.getElementById('pdfButton').style.display = 'block';
+            } else {
+                statusDiv.innerHTML = '<h3 class="failed">❌ DEFICIENTE</h3>';
+                scoreSpan.className = 'score failed';
+                document.getElementById('pdfButton').style.display = 'none';
+            }
+            
+            statusDiv.innerHTML += `<p style="margin-top: 15px; font-size: 1.1em;">Respuestas correctas: ${correctCount} de ${questions.length}</p>`;
+        }
+
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const name = document.getElementById('resultName').textContent;
+            const studentId = document.getElementById('resultId').textContent;
+            const score = document.getElementById('scoreDisplay').textContent;
+            
+            doc.setFontSize(18);
+            doc.text('Evaluacion de Mantenimiento', 105, 20, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.text(`Aprendiz: ${name}`, 20, 40);
+            doc.text(`Documento: ${studentId}`, 20, 50);
+            doc.text(`Nota Final: ${score}`, 20, 60);
+            doc.text(`Estado: APROBADO`, 20, 70);
+            
+            doc.setFontSize(11);
+            doc.text('Respuestas:', 20, 85);
+            
+            let yPos = 95;
+            questions.forEach((q, index) => {
+                if (yPos > 270) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                
+                const userAnswer = userAnswers[q.id];
+                const isCorrect = userAnswer === q.correct;
+                const status = isCorrect ? '(Correcta)' : '(Incorrecta)';
+                
+                doc.text(`${index + 1}. Respuesta: ${q.options[userAnswer]} ${status}`, 20, yPos);
+                yPos += 10;
+            });
+            
+            doc.save(`Evaluacion_${name}_${studentId}.pdf`);
+        }
+
+        initExam();
+    </script>
+</body>
+</html>
